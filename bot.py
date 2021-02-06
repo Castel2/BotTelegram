@@ -41,9 +41,14 @@ def on_command_about(message):
         parse_mode="Markdown")
 
 
-@bot.message_handler(regexp=r"^(gane|gané|g) ([+-]?([0-9]*[.])?[0-9]+)$")
-def on_earn_money(message):
-    pass
+@bot.message_handler(regexp=r"^(obtener saldo|s)$")
+def on_get_balance(message):
+    bot.send_chat_action(message.chat.id, 'typing')
+    balance = logic.get_balance (message.from_user.id)
+    text = "\U0000274C Aún no tienes una cuenta asociada, ejecuta /start para arreglarlo."
+    if balance != None:
+        text = f"Tu saldo actual es ${balance}"
+    bot.reply_to(message, text)
 
 @bot.message_handler(regexp=r"^(gaste|gasté|gg) ([+-]?([0-9]*[.])?[0-9]+)$")
 def on_spend_money(message):
